@@ -1,5 +1,5 @@
 from stockManage.adder import adder
-from viewerManager.viewer import viewer
+from viewerupdtManager.viewer import viewer
 
 def menu():
     while True:
