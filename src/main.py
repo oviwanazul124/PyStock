@@ -1,4 +1,5 @@
 from stockManage.adder import adder
+from viewerManager.viewer import viewer
 
 def menu():
     while True:
@@ -57,7 +58,7 @@ def viewSercMenu():
 
     match opt:
         case "1":
-            # Logic for view all stock to be implemented
+            viewer()
             pass
         case "2":
             # Logic for search stock to be implemented

@@ -20,3 +20,13 @@ def save_item(item_name, item_price, item_stock):
         "price": item_price,
         "stock": item_stock
     }
+
+def getData():
+    """
+    Function in charge of returning the current items added
+
+        Returns:
+            dict: A dictionary containing the added items with their names as keys and ther price and stock as values.
+    
+    """
+    return added_items
