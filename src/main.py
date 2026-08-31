@@ -1,25 +1,27 @@
 from stockManage.adder import adder
 
 def menu():
-    print("PyStock System")
-    print("1. Add/Update/Delete Stock")
-    print("2. View Stock")
-    print("3. Exit")
+    while True:
+        print("PyStock System")
+        print("1. Add/Update/Delete Stock")
+        print("2. View Stock")
+        print("3. Exit")
 
-    opt = input("Select an option: ")
+        opt = input("Select an option: ")
 
-    match opt:
-        case "1":
-            stockManipulMenu()
-        case "2":
-            # Logic for view stock to be implemented
-            pass
-        case "3":
-            print("Exiting the program...")
-            exit()
-        case _:
-            print("Invalid option. Please try a valid one")
-            menu()
+        match opt:
+            case "1":
+                stockManipulMenu()
+            case "2":
+                # Logic for view stock to be implemented
+                pass
+            case "3":
+                print("Exiting the program...")
+                exit()
+            case _:
+                print("Invalid option. Please try a valid one")
+                menu()
+
 
 def stockManipulMenu():
     print("PyStock System - Stock Manipulation")
@@ -45,4 +47,5 @@ def stockManipulMenu():
             print("Invalid option. Please try a valid one")
             stockManipulMenu()
 
-menu()
+if __name__ == "__main__":
+    menu()
