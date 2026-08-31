@@ -1,13 +1,14 @@
-added_items = {}
+from saveManager.save import save_item
 
 def adder():
+
+    # Start the validation process for the items to be added.
     item_name, item_price, item_stock = adder_validation()
 
-    added_items[item_name] = {
-        "price": item_price,
-        "stock": item_stock
-    }
-    print(added_items)
+    # Save the item to the temporal save state.
+    save_item(item_name, item_price, item_stock)
+
+    # Confirm to the user the action was succesful and ask if they want to add more.
     print(f"The item {item_name}, has been added to the stock with a price of {item_price} and a current stock of {item_stock}.")
     print("Do you want to add another item? (y/n)")
     opt = input("")
