@@ -1,6 +1,13 @@
+added_items = {}
+
 def adder():
     item_name, item_price, item_stock = adder_validation()
 
+    added_items[item_name] = {
+        "price": item_price,
+        "stock": item_stock
+    }
+    print(added_items)
     print(f"The item {item_name}, has been added to the stock with a price of {item_price} and a current stock of {item_stock}.")
     print("Do you want to add another item? (y/n)")
     opt = input("")
@@ -20,7 +27,6 @@ def adder_validation():
             print("Please enter a valid item name. It shouldn't be empty or anything that isn't a text.")
             continue
         else:
-            print(type(item_name))
             break
 
     # Validation for item price
