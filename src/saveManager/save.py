@@ -20,3 +20,6 @@ def save_item(item_name, item_price, item_stock):
         "price": item_price,
         "stock": item_stock
     }
+
+def getData():
+    return added_items
