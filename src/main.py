@@ -4,7 +4,7 @@ def menu():
     while True:
         print("PyStock System")
         print("1. Add/Update/Delete Stock")
-        print("2. View Stock")
+        print("2. View/Search Stock")
         print("3. Exit")
 
         opt = input("Select an option: ")
@@ -13,7 +13,7 @@ def menu():
             case "1":
                 stockManipulMenu()
             case "2":
-                # Logic for view stock to be implemented
+                viewSercMenu()
                 pass
             case "3":
                 print("Exiting the program...")
@@ -46,6 +46,27 @@ def stockManipulMenu():
         case _:
             print("Invalid option. Please try a valid one")
             stockManipulMenu()
+
+def viewSercMenu():
+    print("PyStock System - View/Search Stock")
+    print("1. View All Stock")
+    print("2. Search Stock")
+    print("3. Back to Main Menu")
+
+    opt = input("Select an option: ")
+
+    match opt:
+        case "1":
+            # Logic for view all stock to be implemented
+            pass
+        case "2":
+            # Logic for search stock to be implemented
+            pass
+        case "3":
+            menu()
+        case _:
+            print("Invalid option. Please try a valid one")
+            viewSercMenu()
 
 if __name__ == "__main__":
     menu()
