@@ -119,7 +119,8 @@ def update_product_info():
                 print("Price updated succesfully. \n")
                 if not confirmation_prompt("2"):
                     break
-            break
+                else:
+                    return
 
         # Logic for stock change
         elif opt == "2":

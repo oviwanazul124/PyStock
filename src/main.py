@@ -23,7 +23,7 @@ def menu():
                 exit()
             case _:
                 print("Invalid option. Please try a valid one")
-                return
+                continue
 
 
 def stockManipulMenu():
@@ -47,10 +47,10 @@ def stockManipulMenu():
                 # Logic for delete to be implemented
                 pass
             case "4":
-                menu()
+                return
             case _:
                 print("Invalid option. Please try a valid one")
-                return
+                continue
 
 def viewSercMenu():
 
@@ -70,10 +70,10 @@ def viewSercMenu():
                 # Logic for search stock to be implemented
                 pass
             case "3":
-                menu()
+                return
             case _:
                 print("Invalid option. Please try a valid one")
-                return
+                continue
 
 if __name__ == "__main__":
     menu()
