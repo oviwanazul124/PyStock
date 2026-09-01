@@ -155,6 +155,8 @@ def update_product_info():
                 print("Stock updated succesfully. \n")            
                 if not confirmation_prompt("2"):
                     break
+                else:
+                    return
             break
 
 def update_product_name():
