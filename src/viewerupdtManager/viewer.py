@@ -1,9 +1,9 @@
-from saveManager.save import getData
+from saveManager.save import get_data
 
 def viewer():
 
     # Get current data from the save
-    data = getData()
+    data = get_data()
 
     # If data is empty show it via screen
     if len(data) == 0:
