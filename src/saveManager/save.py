@@ -50,6 +50,17 @@ def update_data(item_name, item_price=None, item_stock=None):
             "stock": added_items[item_name]["stock"]
         }
 
+def update_data_product(old_name, new_name):
+
+    added_items[new_name] = {
+        "price": added_items[old_name]["price"],
+        "stock": added_items[old_name]["stock"]
+    }
+
+    if old_name in added_items:
+        added_items[new_name] = added_items.pop(old_name)
+
+
 def get_data():
     """
     Function in charge of returning the current items added

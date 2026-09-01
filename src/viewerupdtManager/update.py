@@ -1,4 +1,4 @@
-from saveManager.save import get_data, update_data
+from saveManager.save import get_data, update_data, update_data_product
 
 data = get_data()
 
@@ -16,7 +16,7 @@ def updater_menu():
             update_product_info()
             pass
         case "2":
-            # Logic for updating product name to be implemented.
+            update_product_name()
             pass
         case "3":
             return
@@ -70,7 +70,6 @@ def update_product_info():
     active_products = []
     for key in data.keys():
         active_products.append(key)
-    print(active_products)
     if product_name not in active_products:
         print("Product not found. Please try again.")
         return
@@ -157,3 +156,39 @@ def update_product_info():
                 confirmation_prompt("2")
                 break
             break
+
+def update_product_name():
+
+
+    while True:
+        # Handling initial product input
+        print("Please enter the product you want to rename: \n")
+        product_name = input("Product name: \n")
+
+        # Verifying the product itself exists
+        active_products = []
+        for key in data.keys():
+            active_products.append(key)
+        if product_name not in active_products:
+            print("Product not found. Please try again.")
+            return
+        
+        # Handling new product name
+        print("Please enter the new name for the product: \n")
+        new_product_name = input("New product name: \n")
+
+        # Edge cases
+        if product_name == new_product_name:
+            print("The new product name is the same as the current product name. Please enter a different name.")
+            continue
+        if new_product_name in active_products:
+            print("The new product name already exists. Please enter a different name.")
+            continue
+
+        # Renaming of the product itself
+        if confirmation_prompt("1") == False:
+            break
+        update_data_product(product_name, new_product_name)
+        print(f"Product with name {product_name} has been renamed to {new_product_name}. \n")
+        break
+    return
