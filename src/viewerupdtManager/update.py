@@ -4,24 +4,23 @@ data = get_data()
 
 def updater_menu():
     print("PyStock System - Update Stock")
-    print("Please enter the option you want to do with the item:")
-    print("1. Update related info (Price, Stock)")
-    print("2. Update product name")
-    print("3. Back to Main Menu")
+    while True:
+        print("Please enter the option you want to do with the item:")
+        print("1. Update related info (Price, Stock)")
+        print("2. Update product name")
+        print("3. Back to Main Menu")
 
-    opt = input("Select an option:  \n")
+        opt = input("Select an option:  \n")
 
-    match opt:
-        case "1":
-            update_product_info()
-            pass
-        case "2":
-            update_product_name()
-            pass
-        case "3":
-            return
-        case _:
-            print("Invalid option. Please try a valid one \n")
+        match opt:
+            case "1":
+                update_product_info()
+            case "2":
+                update_product_name()
+            case "3":
+                return
+            case _:
+                print("Invalid option. Please try a valid one \n")
 
 def confirmation_prompt(opt):
     """
@@ -54,9 +53,9 @@ def confirmation_prompt(opt):
             while True:
                 confirmation = input("You want to update more products? (y/n):  \n")
                 if confirmation.lower() == 'y':
-                    update_product_info()
+                    return True
                 elif confirmation.lower() == 'n':
-                    break
+                    return False
                 else:
                     print("Invalid input. Please enter 'y' or 'n'. \n")
         case _:
@@ -118,8 +117,8 @@ def update_product_info():
                     break
                 update_data(product_name, item_price=new_price)
                 print("Price updated succesfully. \n")
-                confirmation_prompt("2")
-                break
+                if not confirmation_prompt("2"):
+                    break
             break
 
         # Logic for stock change
@@ -153,8 +152,8 @@ def update_product_info():
                     break
                 update_data(product_name, item_stock=new_stock) 
                 print("Stock updated succesfully. \n")            
-                confirmation_prompt("2")
-                break
+                if not confirmation_prompt("2"):
+                    break
             break
 
 def update_product_name():
