@@ -21,7 +21,36 @@ def save_item(item_name, item_price, item_stock):
         "stock": item_stock
     }
 
-def getData():
+def update_data(item_name, item_price=None, item_stock=None):
+    """
+    Function in charge of updating the items in the added items dictionary.
+
+        Args:
+            item_name (str): The name of the item to be updated.
+            item_price (float, optional): The new price of the item. Defaults to None.
+            item_stock (int, optional): The new stock of the item. Defaults to None.
+
+        Returns:    
+            None
+        
+        Raises:
+            None
+    """
+
+    # Logic for implementing the changes to the item information.
+    if item_price == None:
+        added_items[item_name] = {
+            "price": added_items[item_name]["price"],
+            "stock": item_stock
+            
+        }
+    else:
+        added_items[item_name] = {
+            "price": item_price,
+            "stock": added_items[item_name]["stock"]
+        }
+
+def get_data():
     """
     Function in charge of returning the current items added
 

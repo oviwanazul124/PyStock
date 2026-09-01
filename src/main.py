@@ -1,5 +1,6 @@
 from stockManage.adder import adder
 from viewerupdtManager.viewer import viewer
+from viewerupdtManager.update import updater_menu
 
 def menu():
     while True:
@@ -37,7 +38,7 @@ def stockManipulMenu():
         case "1":
             adder()
         case "2":
-            # Logic for update to be implemented
+            updater_menu()
             pass
         case "3":
             # Logic for delete to be implemented
