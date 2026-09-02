@@ -1,6 +1,4 @@
-from saveManager.save import get_data, update_data, update_data_product
-
-data = get_data()
+from saveManager.save import update_price, update_stock, item_exists, retrieve_item, update_name
 
 def updater_menu():
     print("PyStock System - Update Stock")
@@ -66,99 +64,105 @@ def update_product_info():
     # Logic for checking if the product exists before updating.
     product_name = input("Enter the product name to update: \n")
 
-    active_products = []
-    for key in data.keys():
-        active_products.append(key)
-    if product_name not in active_products:
-        print("Product not found. Please try again.")
+    if not item_exists(product_name):
+        print("Product not found. Please try again. \n")
         return
 
     # Showing the current project info and asking what wants to change.
-    product_info = data[product_name]
-    while True:
+    product_info = retrieve_item(product_name)
 
+    while True:
         # Print to the screen the current info and ask what wants to change.
         print(f"The current info are: \n Price: {product_info['price']}\nStock: {product_info['stock']}\n")
         print("What do you want to change?")
         print("1. Price")
         print("2. Stock")
+        print("3. Back to Update Menu")
 
         # Logic for implementing the changes to the product info.
         opt = input("Select an option:")
 
         # Logic for price change.
-        if opt == "1":
+        match opt:
+            case "1":
 
-            while True:
+                while True:
 
-                # Logic for handling unexpected ValueError.
-                try:
-                    new_price = float(input("Enter the new price: "))
-                except ValueError:
-                    print("Please enter a valid item price that is a number.")
-                    continue
+                    # Logic for handling unexpected ValueError.
+                    try:
+                        new_price = float(input("Enter the new price: "))
+                    except ValueError:
+                        print("Please enter a valid item price that is a number.")
+                        continue
 
-                # Logic for handling prices that are 0 or negative.
-                if new_price <= 0:
-                    print("Please enter a valid item price that is a positive number that isn't 0.")
-                    continue
+                    # Logic for handling prices that are 0 or negative.
+                    if new_price <= 0:
+                        print("Please enter a valid item price that is a positive number that isn't 0.")
+                        continue
 
-                # Logic for handling the same price change.
-                if new_price == product_info['price']:
-                    print("The new price is the same as the current price. Please enter a different price.")
-                    continue
+                    # Logic for handling the same price change.
+                    if new_price == product_info['price']:
+                        print("The new price is the same as the current price. Please enter a different price.")
+                        continue
 
-                # Logic for updating the price and confirming the change to the user.
-                product_info['price'] = new_price
-                print(f"Price being updated to {new_price} \n")
+                    # Logic for updating the price and confirming the change to the user.
+                    print(f"Price being updated to {new_price} \n")
 
-                # Logic stop cyclic loop between menus
-                if confirmation_prompt("1") == False:
-                    break
-                update_data(product_name, item_price=new_price)
-                print("Price updated succesfully. \n")
-                if not confirmation_prompt("2"):
-                    break
-                else:
-                    return
+                    # Logic stop cyclic loop between menus
+                    if confirmation_prompt("1") == False:
+                        break
+                    product_info['price'] = new_price
+                    update_price(product_name, item_price=new_price)
+                    
+                    print("Price updated succesfully. \n")
+                    if not confirmation_prompt("2"):
+                        return
+                    else:
+                        break
 
-        # Logic for stock change
-        elif opt == "2":
+            # Logic for stock change
+            case "2":
 
-            while True:
+                while True:
 
-                # Logic for handling unexpected ValueError.
-                try:
-                    new_stock = int(input("Enter the new stock: "))
-                except ValueError:
-                    print("Please enter a valid item stock that is a number.")
-                    continue
+                    # Logic for handling unexpected ValueError.
+                    try:
+                        new_stock = int(input("Enter the new stock: "))
+                    except ValueError:
+                        print("Please enter a valid item stock that is a number.")
+                        continue
 
-                # Logic for handling stock that is negative.
-                if new_stock < 0:
-                    print("Please enter a valid item stock that is a positive number.")
-                    continue
+                    # Logic for handling stock that is negative.
+                    if new_stock < 0:
+                        print("Please enter a valid item stock that is a positive number.")
+                        continue
 
-                # Logic for handling the same stock change.
-                if new_stock == product_info['stock']:
-                    print("The new stock is the same as the current stock. Please enter a different stock.")
-                    continue
+                    # Logic for handling the same stock change.
+                    if new_stock == product_info['stock']:
+                        print("The new stock is the same as the current stock. Please enter a different stock.")
+                        continue
 
-                # Logic for updating the stock and confirming the change to the user.
-                product_info['stock'] = new_stock
-                print(f"Stock being updated to {new_stock} \n")
+                    # Logic for updating the stock and confirming the change to the user.
+                    print(f"Stock being updated to {new_stock} \n")
 
-                # Logic stop cyclic loop between menus
-                if confirmation_prompt("1") == False:
-                    break
-                update_data(product_name, item_stock=new_stock) 
-                print("Stock updated succesfully. \n")            
-                if not confirmation_prompt("2"):
-                    break
-            break
+                    # Logic stop cyclic loop between menus
+                    if confirmation_prompt("1") == False:
+                        break
+                    product_info['stock'] = new_stock
+                    update_stock(product_name, item_stock=new_stock) 
+                    print("Stock updated succesfully. \n")            
+                    if not confirmation_prompt("2"):
+                        return
+                    else:
+                        break
+
+            case "3":
+                return
+
+            case _:
+                print("Invalid option. Please try a valid one \n")
 
 def update_product_name():
-
 
     while True:
         # Handling initial product input
@@ -166,13 +170,10 @@ def update_product_name():
         product_name = input("Product name: \n")
 
         # Verifying the product itself exists
-        active_products = []
-        for key in data.keys():
-            active_products.append(key)
-        if product_name not in active_products:
-            print("Product not found. Please try again.")
-            return
-        
+        if not item_exists(product_name):
+            print("Product not found. Please try again. \n")
+            continue
+
         # Handling new product name
         print("Please enter the new name for the product: \n")
         new_product_name = input("New product name: \n")
@@ -181,14 +182,15 @@ def update_product_name():
         if product_name == new_product_name:
             print("The new product name is the same as the current product name. Please enter a different name.")
             continue
-        if new_product_name in active_products:
+
+        if item_exists(new_product_name):
             print("The new product name already exists. Please enter a different name.")
             continue
 
         # Renaming of the product itself
         if confirmation_prompt("1") == False:
             break
-        update_data_product(product_name, new_product_name)
+        update_name(product_name, new_product_name)
         print(f"Product with name {product_name} has been renamed to {new_product_name}. \n")
         break
     return
