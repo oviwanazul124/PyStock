@@ -1,4 +1,4 @@
-from saveManager.save import save_item, get_data
+from saveManager.save import save_item, item_exists
 
 def adder():
 
@@ -27,8 +27,8 @@ def adder_validation():
         if not item_name:
             print("Please enter a valid item name. It shouldn't be empty or anything that isn't a text.")
             continue
-        elif item_name in get_data():
-            print("The item name already exists. Please enter a different name.")
+        elif item_exists(item_name):
+            print("The item name already exists. Please enter a different item name.")
             continue
         else:
             break
