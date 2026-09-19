@@ -1,6 +1,6 @@
-from stockManage.adder import adder
-from viewerupdtManager.viewer import viewer
-from viewerupdtManager.update import updater_menu
+from stockManager.adder import adder
+from utils.viewer import viewer
+from updateManager.update import updater_menu
 
 def menu():
 

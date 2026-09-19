@@ -1,8 +1,24 @@
 from saveManager.save import update_price, update_stock, item_exists, retrieve_item, update_name
+from utils.validator import is_price_correct, is_price_same, is_stock_same, is_product_same, is_stock_correct
+
 
 def updater_menu():
-    print("PyStock System - Update Stock")
+    """
+    Function in charge of showing the menu for the user and handle the option that he select himself.
+
+    Args:
+        None
+    
+    Returns:
+        None
+    
+    Raises:
+        None
+    """
+
+    # Handle menu show to the CLI.
     while True:
+        print("PyStock System - Update Stock")
         print("Please enter the option you want to do with the item:")
         print("1. Update related info (Price, Stock)")
         print("2. Update product name")
@@ -10,6 +26,7 @@ def updater_menu():
 
         opt = input("Select an option:  \n")
 
+        # Logic about the option selected by the user.
         match opt:
             case "1":
                 update_product_info()
@@ -22,21 +39,22 @@ def updater_menu():
 
 def confirmation_prompt(opt):
     """
-    
     Function in charge of asking the user idfferent confirmation prompts depending on the option selected. '1' for updating related and '2' for wanting to update more products
 
         Args:
             opt (str): The option selected by the user.
         
         Returns:
-            bool: False if user dosen't want to update more products. Only when option 1 is selected. Otherwise, it returns None.
+            bool: True if the user confirms the action, False otherwise.
         
         Raises:
-            None
-            
+            ValueError: If the option where the fuction was called is invalid     
     """
 
+    # Logic for handling the prompt depending on the context of the action.
     match opt:
+
+        # Case confirmation of update to the product
         case "1":
             while True:
                 confirmation = input("Are you sure you want to update this product? (y/n): \n")
@@ -47,6 +65,8 @@ def confirmation_prompt(opt):
                     return False
                 else:
                     print("Invalid input. Please enter 'y' or 'n'. \n")            
+
+        # Case confirmation of updating more products.
         case "2":
             while True:
                 confirmation = input("You want to update more products? (y/n):  \n")
@@ -60,6 +80,19 @@ def confirmation_prompt(opt):
             raise ValueError("confirmation_prompt() received an invalid option. Please select a valid option.")
         
 def update_product_info():
+    """
+    Function in charge of updating the product info (price and stock) of a product.
+
+        Args:
+            None
+        
+        Returns:
+            None
+        
+        Raises:
+            None
+    """
+
 
     # Logic for checking if the product exists before updating.
     product_name = input("Enter the product name to update: \n")
@@ -95,13 +128,13 @@ def update_product_info():
                         print("Please enter a valid item price that is a number.")
                         continue
 
-                    # Logic for handling prices that are 0 or negative.
-                    if new_price <= 0:
-                        print("Please enter a valid item price that is a positive number that isn't 0.")
+                    # Validation of the price being a positive number that isn't 0.
+                    if not is_price_correct(new_price):
+                        print("Please enter a valid item price that is a positive number greater than 0.")
                         continue
 
                     # Logic for handling the same price change.
-                    if new_price == product_info['price']:
+                    if is_price_same(product_name, new_price):
                         print("The new price is the same as the current price. Please enter a different price.")
                         continue
 
@@ -133,12 +166,12 @@ def update_product_info():
                         continue
 
                     # Logic for handling stock that is negative.
-                    if new_stock < 0:
+                    if is_stock_correct(new_stock) == False:
                         print("Please enter a valid item stock that is a positive number.")
                         continue
 
                     # Logic for handling the same stock change.
-                    if new_stock == product_info['stock']:
+                    if is_stock_same(product_name, new_stock):
                         print("The new stock is the same as the current stock. Please enter a different stock.")
                         continue
 
@@ -163,6 +196,18 @@ def update_product_info():
                 print("Invalid option. Please try a valid one \n")
 
 def update_product_name():
+    """
+    Function in charge of updating the product name of a product.
+
+        Args:
+            None
+        
+        Returns:
+            None
+        
+        Raises:
+            None
+    """
 
     while True:
         # Handling initial product input
@@ -179,7 +224,7 @@ def update_product_name():
         new_product_name = input("New product name: \n")
 
         # Edge cases
-        if product_name == new_product_name:
+        if is_product_same(product_name, new_product_name):
             print("The new product name is the same as the current product name. Please enter a different name.")
             continue
 
