@@ -1,4 +1,5 @@
 from saveManager.save import get_full_view
+from time import sleep as wait
 
 def viewer():
 
@@ -11,7 +12,9 @@ def viewer():
         return
 
     # If not empty, show the data in a table format
-    print(f"{'Product Name':<20} {'Price':<10} {'Stock':<10}")
-    print("-" * 40)
-    for product_name, product_info in data:
-        print(f"{product_name:<20} {product_info[0]:<10} {product_info[1]:<10}")
+    print(f"{"ID":<20} {'Product Name':<10} {'Price':<10} {'Stock':<10}")
+    print("-" * 60)
+    for id in data:
+        pr = data[id]
+        print(f"ID: {id:<20} Name: {pr.name:<10} Price: {pr.price:<10} Stock: {pr.stock:<10}")
+    wait(5)

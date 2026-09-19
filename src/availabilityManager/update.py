@@ -1,6 +1,6 @@
 from saveManager.save import update_price, update_stock, item_exists, retrieve_item, update_name
 from utils.validator import is_price_correct, is_price_same, is_stock_same, is_product_same, is_stock_correct
-
+from utils.clear import clear_screen
 
 def updater_menu():
     """
@@ -18,7 +18,9 @@ def updater_menu():
 
     # Handle menu show to the CLI.
     while True:
+        clear_screen()
         print("PyStock System - Update Stock")
+        print("-" * 30)
         print("Please enter the option you want to do with the item:")
         print("1. Update related info (Price, Stock)")
         print("2. Update product name")
@@ -93,20 +95,21 @@ def update_product_info():
             None
     """
 
+    clear_screen()
 
     # Logic for checking if the product exists before updating.
-    product_name = input("Enter the product name to update: \n")
+    id = input("Enter the product ID to update: \n")
 
-    if not item_exists(product_name):
+    if not item_exists(id):
         print("Product not found. Please try again. \n")
         return
 
     # Showing the current project info and asking what wants to change.
-    product_info = retrieve_item(product_name)
+    pr = retrieve_item(id)
 
     while True:
         # Print to the screen the current info and ask what wants to change.
-        print(f"The current info are: \n Price: {product_info['price']}\nStock: {product_info['stock']}\n")
+        print(f"The current info are: \n Price: {pr.price}\nStock: {pr.stock}\n")
         print("What do you want to change?")
         print("1. Price")
         print("2. Stock")
@@ -134,7 +137,7 @@ def update_product_info():
                         continue
 
                     # Logic for handling the same price change.
-                    if is_price_same(product_name, new_price):
+                    if is_price_same(pr.price, new_price):
                         print("The new price is the same as the current price. Please enter a different price.")
                         continue
 
@@ -143,10 +146,9 @@ def update_product_info():
 
                     # Logic stop cyclic loop between menus
                     if confirmation_prompt("1") == False:
-                        break
-                    product_info['price'] = new_price
-                    update_price(product_name, item_price=new_price)
-                    
+                        break 
+                    update_price(id, new_price)
+
                     print("Price updated succesfully. \n")
                     if not confirmation_prompt("2"):
                         return
@@ -171,7 +173,7 @@ def update_product_info():
                         continue
 
                     # Logic for handling the same stock change.
-                    if is_stock_same(product_name, new_stock):
+                    if is_stock_same(id, new_stock):
                         print("The new stock is the same as the current stock. Please enter a different stock.")
                         continue
 
@@ -181,8 +183,7 @@ def update_product_info():
                     # Logic stop cyclic loop between menus
                     if confirmation_prompt("1") == False:
                         break
-                    product_info['stock'] = new_stock
-                    update_stock(product_name, item_stock=new_stock) 
+                    update_stock(id, new_stock) 
                     print("Stock updated succesfully. \n")            
                     if not confirmation_prompt("2"):
                         return
@@ -208,14 +209,15 @@ def update_product_name():
         Raises:
             None
     """
+    clear_screen()
 
     while True:
         # Handling initial product input
         print("Please enter the product you want to rename: \n")
-        product_name = input("Product name: \n")
+        id = input("Product name: \n")
 
         # Verifying the product itself exists
-        if not item_exists(product_name):
+        if not item_exists(id):
             print("Product not found. Please try again. \n")
             continue
 
@@ -224,7 +226,7 @@ def update_product_name():
         new_product_name = input("New product name: \n")
 
         # Edge cases
-        if is_product_same(product_name, new_product_name):
+        if is_product_same(id, new_product_name):
             print("The new product name is the same as the current product name. Please enter a different name.")
             continue
 
@@ -235,7 +237,7 @@ def update_product_name():
         # Renaming of the product itself
         if confirmation_prompt("1") == False:
             break
-        update_name(product_name, new_product_name)
-        print(f"Product with name {product_name} has been renamed to {new_product_name}. \n")
+        update_name(id, new_product_name)
+        print(f"Product with name {id} has been renamed to {new_product_name}. \n")
         break
     return

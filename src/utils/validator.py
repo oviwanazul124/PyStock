@@ -45,7 +45,7 @@ def is_stock_correct(stock):
     else:
         return True
 
-def is_product_same(product, new_product_name):
+def is_product_same(id, new_product_name):
     """
     Validates if the given product name is the same as the current product name.
 
@@ -60,16 +60,16 @@ def is_product_same(product, new_product_name):
             TypeError: If the product does not exist in the added dictionary.
     """
 
-    current_product = retrieve_item(product)
-    if current_product == None:
+    pr = retrieve_item(id)
+    if pr == None:
         raise TypeError("Function is product_same: Has been called with a product that dosen't exists in the added dictionary")
 
-    if product == new_product_name:
+    if pr.name == new_product_name:
         return True
     else:
         return False
 
-def is_price_same(product, price):
+def is_price_same(id, price):
     """
     Validates if the given price is the same as the current price of the product.
     
@@ -84,18 +84,16 @@ def is_price_same(product, price):
             TypeError: If the product does not exist in the added dictionary.
     """
 
-    current_product = retrieve_item(product)
-    if current_product == None:
+    pr = retrieve_item(id)
+    if pr == None:
         raise TypeError("Function is_price_same: Has been called with a product that doesn't exist in the added dictionary")
 
-    current_product_price = current_product["price"]
-
-    if current_product_price == price:
+    if pr.price == price:
         return True
     else:
         return False
 
-def is_stock_same(product, stock):
+def is_stock_same(id, stock):
     """
     Validates if the given stock is the same as the current stock of the product.
 
@@ -112,11 +110,11 @@ def is_stock_same(product, stock):
 
     """
 
-    current_product = retrieve_item(product)
-    if current_product == None:
+    pr = retrieve_item(id)
+    if pr == None:
         raise TypeError("Function is_stock_same: Has been called with a product that dosen't exists in the added dictionary")
 
-    if current_product["stock"] == stock:
+    if pr.stock == stock:
         return True
     else:
         return False

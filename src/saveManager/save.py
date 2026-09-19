@@ -1,3 +1,5 @@
+from models.product import Product
+
 added_items = {}
 
 def save_item(item_name, item_price, item_stock):
@@ -16,10 +18,10 @@ def save_item(item_name, item_price, item_stock):
             None
     """
 
-    added_items[item_name] = {
-        "price": item_price,
-        "stock": item_stock
-    }
+    pr = Product(item_name, item_price, item_stock)
+
+    added_items[pr.id] = pr
+
 
 def get_full_view():
     """
@@ -29,22 +31,15 @@ def get_full_view():
             None
 
         Returns:
-            tuple: The full view of the added items.
+            dict: The full view of the added items.
 
         Raises:
             None
     """
 
-    snapshot = added_items.copy()
+    return added_items.copy()
 
-    for product_name, product_info in snapshot.items():
-        snapshot[product_name] = (product_info["price"], product_info["stock"])
-
-    snapshot = tuple(snapshot.items())
-
-    return snapshot
-
-def update_name(old_name, new_name):
+def update_name(id, new_name):
     """
     Function in charge of updating the name of the items in the added items dictionary.
 
@@ -59,18 +54,11 @@ def update_name(old_name, new_name):
             ValueError: If the old name does not exist in the added items dictionary.
     """
 
+    pr = added_items.get(id)
 
-    new_key = {
-        
-        "price": added_items[old_name]["price"],
-        "stock": added_items[old_name]["stock"]
-    }
+    pr.name = new_name
 
-    del added_items[old_name]
-    added_items[new_name] = new_key
-
-
-def retrieve_item(item_name):
+def retrieve_item(id):
     """
     Function in charge of retrieving the item from the added items dictionary.
 
@@ -84,11 +72,10 @@ def retrieve_item(item_name):
             ValueError: If the item does not exist in the added dictionary.
     """
 
-    if item_name in added_items:
-        current_item = added_items[item_name].copy()
-        return current_item
-    else:
-        raise ValueError(f"Item {item_name} does not exist in the added dictionary.")
+    try:
+        return added_items[int(id)]
+    except KeyError:
+        print(f"Item with ID {id} does not exist in the added items dictionary.")
 
 def item_exists(item_name):
     """
@@ -104,12 +91,12 @@ def item_exists(item_name):
             None
     """
 
-    if item_name in added_items:
-        return True
-    else:
-        return False
+    for id in added_items:
+        if added_items[id].name == item_name:
+            return True
+    return False
 
-def update_price(item_name, item_price):
+def update_price(id, item_price):
     """
     Function in charge of updating the price of the items in the added items dictionary.
     
@@ -124,11 +111,13 @@ def update_price(item_name, item_price):
             None
     """
 
-    added_items[item_name]["price"] = item_price
+    pr = added_items.get(int(id))
+
+    pr.price = item_price
 
     return True
 
-def update_stock(item_name, item_stock):
+def update_stock(id, item_stock):
     """
     Function in charge of updating the stock of the items in the added items dictionary.
     
@@ -143,6 +132,13 @@ def update_stock(item_name, item_stock):
             None
     """
 
-    added_items[item_name]["stock"] = item_stock
+    pr = added_items.get(int(id))
+    pr.stock = item_stock
 
     return True
+
+def _get_id_by_item(item_name):
+
+    for id in added_items:
+        if added_items[id].name == item_name:
+            return id
