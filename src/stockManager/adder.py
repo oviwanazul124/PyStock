@@ -1,4 +1,5 @@
 from saveManager.save import save_item, item_exists
+from utils.validator import is_price_correct, is_stock_correct
 
 def adder():
 
@@ -38,7 +39,7 @@ def adder_validation():
         item_price = input("Enter the item price: ")
         try:
             item_price = float(item_price)
-            if item_price <= 0:
+            if is_price_correct(item_price) == False:
                 print("Please enter a valid item price. It should be a positive number that isn't 0.")
                 continue
             else:
@@ -51,7 +52,7 @@ def adder_validation():
         item_stock = input("Enter the item stock: ")
         try:
             item_stock = int(item_stock)
-            if item_stock < 0:
+            if is_stock_correct(item_stock) == False:
                 print("Please enter a valid item stock. It should be a positive number.")
                 continue
             else:
