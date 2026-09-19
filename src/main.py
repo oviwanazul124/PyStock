@@ -1,11 +1,14 @@
-from stockManager.adder import adder
-from utils.viewer import viewer
-from updateManager.update import updater_menu
+from availabilityManager.add import adder
+from availabilityManager.view import viewer
+from availabilityManager.update import updater_menu
+from utils.clear import clear_screen
 
 def menu():
 
-    print("PyStock System")
+    clear_screen()
     while True:
+        print("PyStock System")
+        print("-" * 30)
         print("1. Add/Update/Delete Stock")
         print("2. View/Search Stock")
         print("3. Exit")
@@ -28,8 +31,10 @@ def menu():
 
 def stockManipulMenu():
 
-    print("PyStock System - Stock Manipulation")
     while True:
+        clear_screen()
+        print("PyStock System - Stock Manipulation")
+        print("-" * 30)
         print("1. Add Stock")
         print("2. Update Stock")
         print("3. Delete Stock")
@@ -47,6 +52,7 @@ def stockManipulMenu():
                 # Logic for delete to be implemented
                 pass
             case "4":
+                clear_screen()
                 return
             case _:
                 print("Invalid option. Please try a valid one")
@@ -54,8 +60,10 @@ def stockManipulMenu():
 
 def viewSercMenu():
 
-    print("PyStock System - View/Search Stock")
     while True:
+        clear_screen()
+        print("PyStock System - View/Search Stock")
+        print("-" * 30)
         print("1. View All Stock")
         print("2. Search Stock")
         print("3. Back to Main Menu")
@@ -70,6 +78,7 @@ def viewSercMenu():
                 # Logic for search stock to be implemented
                 pass
             case "3":
+                clear_screen()
                 return
             case _:
                 print("Invalid option. Please try a valid one")

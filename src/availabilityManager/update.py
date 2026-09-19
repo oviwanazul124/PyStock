@@ -1,6 +1,6 @@
 from saveManager.save import update_price, update_stock, item_exists, retrieve_item, update_name
 from utils.validator import is_price_correct, is_price_same, is_stock_same, is_product_same, is_stock_correct
-
+from utils.clear import clear_screen
 
 def updater_menu():
     """
@@ -18,7 +18,9 @@ def updater_menu():
 
     # Handle menu show to the CLI.
     while True:
+        clear_screen()
         print("PyStock System - Update Stock")
+        print("-" * 30)
         print("Please enter the option you want to do with the item:")
         print("1. Update related info (Price, Stock)")
         print("2. Update product name")
@@ -93,6 +95,7 @@ def update_product_info():
             None
     """
 
+    clear_screen()
 
     # Logic for checking if the product exists before updating.
     id = input("Enter the product ID to update: \n")
@@ -206,6 +209,7 @@ def update_product_name():
         Raises:
             None
     """
+    clear_screen()
 
     while True:
         # Handling initial product input

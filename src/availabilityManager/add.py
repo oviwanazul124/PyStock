@@ -1,5 +1,8 @@
 from saveManager.save import save_item, item_exists
 from utils.validator import is_price_correct, is_stock_correct
+from utils.clear import clear_screen
+from time import sleep as wait
+
 
 def adder():
 
@@ -16,14 +19,15 @@ def adder():
     if opt.lower() == "y" or opt.lower() == "yes":
         adder()
     else:
-        print("Returning to the stock manipulation menu...")
+        clear_screen()
         return
 
 def adder_validation():
-    print("PyStock System - Add Stock")
-
     # Validation for item name
     while True:
+        clear_screen()
+        print("PyStock System - Add Stock")
+        print("-" * 30)
         item_name = input("Enter the item name:")
         if not item_name:
             print("Please enter a valid item name. It shouldn't be empty or anything that isn't a text.")

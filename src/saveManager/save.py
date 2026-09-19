@@ -77,7 +77,7 @@ def retrieve_item(id):
     except KeyError:
         print(f"Item with ID {id} does not exist in the added items dictionary.")
 
-def item_exists(id):
+def item_exists(item_name):
     """
     Function in charge of checking if the item exists in the added items dictionary.
 
@@ -90,10 +90,11 @@ def item_exists(id):
         Raises:
             None
     """
-    if int(id) in added_items:
-        return True
-    else:
-        return False
+
+    for id in added_items:
+        if added_items[id].name == item_name:
+            return True
+    return False
 
 def update_price(id, item_price):
     """
@@ -135,3 +136,9 @@ def update_stock(id, item_stock):
     pr.stock = item_stock
 
     return True
+
+def _get_id_by_item(item_name):
+
+    for id in added_items:
+        if added_items[id].name == item_name:
+            return id
