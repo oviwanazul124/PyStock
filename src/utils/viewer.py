@@ -13,5 +13,6 @@ def viewer():
     # If not empty, show the data in a table format
     print(f"{'Product Name':<20} {'Price':<10} {'Stock':<10}")
     print("-" * 40)
-    for product_name, product_info in data:
-        print(f"{product_name:<20} {product_info[0]:<10} {product_info[1]:<10}")
+    for id in data:
+        pr = data[id]
+        print(f"ID: {id:<10} Name: {pr.name:<20} Price: {pr.price:<10} Stock: {pr.stock:<10}")
