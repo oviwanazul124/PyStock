@@ -1,38 +1,38 @@
-from saveManager.save import save_item, item_exists
+## Import Utils
 from utils.validator import is_price_correct, is_stock_correct
 from utils.clear import clear_screen
-from time import sleep as wait
 
+## Import Services
+from services.save_service import item_exists
 
-def adder():
+## Models Import
+from models.save_search_mode import search_mode
 
-    # Start the validation process for the items to be added.
-    item_name, item_price, item_stock = adder_validation()
+def adder_validation() -> tuple[str, float, int]:
+    """
+    Returns a tuple containing the validated item name, price, and stock after prompting the user for input.
 
-    # Save the item to the temporal save state.
-    save_item(item_name, item_price, item_stock)
+        Args:
+            None
 
-    # Confirm to the user the action was succesful and ask if they want to add more.
-    print(f"The item {item_name}, has been added to the stock with a price of {item_price} and a current stock of {item_stock}.")
-    print("Do you want to add another item? (y/n)")
-    opt = input("")
-    if opt.lower() == "y" or opt.lower() == "yes":
-        adder()
-    else:
-        clear_screen()
-        return
-
-def adder_validation():
+        Returns:
+            tuple[str, float, int]: A tuple containing the validated item name, price, and stock.
+        
+        Raises:
+            ValueError: If the item name is empty or already exists, or if the price or stock is invalid.
+    
+    """ 
     # Validation for item name
     while True:
         clear_screen()
         print("PyStock System - Add Stock")
         print("-" * 30)
         item_name = input("Enter the item name:")
+        
         if not item_name:
             print("Please enter a valid item name. It shouldn't be empty or anything that isn't a text.")
             continue
-        elif item_exists(item_name):
+        elif item_exists(item_name, search_mode.NAME):
             print("The item name already exists. Please enter a different item name.")
             continue
         else:
@@ -43,7 +43,7 @@ def adder_validation():
         item_price = input("Enter the item price: ")
         try:
             item_price = float(item_price)
-            if is_price_correct(item_price) == False:
+            if not is_price_correct(item_price):
                 print("Please enter a valid item price. It should be a positive number that isn't 0.")
                 continue
             else:
@@ -56,7 +56,7 @@ def adder_validation():
         item_stock = input("Enter the item stock: ")
         try:
             item_stock = int(item_stock)
-            if is_stock_correct(item_stock) == False:
+            if not is_stock_correct(item_stock):
                 print("Please enter a valid item stock. It should be a positive number.")
                 continue
             else:
