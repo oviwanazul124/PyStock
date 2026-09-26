@@ -1,11 +1,37 @@
-from availabilityManager.add import adder
-from availabilityManager.view import viewer
-from availabilityManager.update import updater_menu
+## Imports from Presentation
+
+from presentation.adder_menu import adder
+from presentation.updater_menu import updater_menu
+from presentation.search_menu import search_menu
+from presentation.deleter_menu import deleter_menu
+
+## Imports from Services
+
+from services.viewer_menu import viewer
+
+## Imports from Utils
+
 from utils.clear import clear_screen
 
-def menu():
+def menu() -> None:
+    """
+    Function in charge of showing the main menu of the app
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            None
+            
+    """
+
+    # Clear the screen before display menu
     clear_screen()
+
+    # Main Menu Loop
     while True:
         print("PyStock System")
         print("-" * 30)
@@ -29,8 +55,21 @@ def menu():
                 continue
 
 
-def stockManipulMenu():
+def stockManipulMenu() -> None:
+    """
+    Function in charge of showing the stock manipulation menu
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            None
+    """
+
+    # Main Loop for the stock manipulation menu
     while True:
         clear_screen()
         print("PyStock System - Stock Manipulation")
@@ -49,7 +88,7 @@ def stockManipulMenu():
                 updater_menu()
                 pass
             case "3":
-                # Logic for delete to be implemented
+                deleter_menu()
                 pass
             case "4":
                 clear_screen()
@@ -59,7 +98,20 @@ def stockManipulMenu():
                 continue
 
 def viewSercMenu():
+    """
+    Function in charge of showing the view/search menu
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            None
+    """
+
+    # Main Loop for the view/search menu
     while True:
         clear_screen()
         print("PyStock System - View/Search Stock")
@@ -75,7 +127,7 @@ def viewSercMenu():
                 viewer()
                 pass
             case "2":
-                # Logic for search stock to be implemented
+                search_menu()
                 pass
             case "3":
                 clear_screen()

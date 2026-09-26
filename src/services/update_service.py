@@ -1,87 +1,18 @@
-from saveManager.save import update_price, update_stock, item_exists, retrieve_item, update_name
-from utils.validator import is_price_correct, is_price_same, is_stock_same, is_product_same, is_stock_correct
+# Services Import
+
+from services.save_service import update_price, update_stock, item_exists, retrieve_item, update_name
+
+# Model Import
+
+from models.save_search_mode import search_mode
+from models.type_prompt_mode import PromptMode
+
+## Utils Import
 from utils.clear import clear_screen
+from utils.confirmation_prompt import confirmation_prompt
+from utils.validator import is_price_correct, is_stock_correct
 
-def updater_menu():
-    """
-    Function in charge of showing the menu for the user and handle the option that he select himself.
-
-    Args:
-        None
-    
-    Returns:
-        None
-    
-    Raises:
-        None
-    """
-
-    # Handle menu show to the CLI.
-    while True:
-        clear_screen()
-        print("PyStock System - Update Stock")
-        print("-" * 30)
-        print("Please enter the option you want to do with the item:")
-        print("1. Update related info (Price, Stock)")
-        print("2. Update product name")
-        print("3. Back to Main Menu")
-
-        opt = input("Select an option:  \n")
-
-        # Logic about the option selected by the user.
-        match opt:
-            case "1":
-                update_product_info()
-            case "2":
-                update_product_name()
-            case "3":
-                return
-            case _:
-                print("Invalid option. Please try a valid one \n")
-
-def confirmation_prompt(opt):
-    """
-    Function in charge of asking the user idfferent confirmation prompts depending on the option selected. '1' for updating related and '2' for wanting to update more products
-
-        Args:
-            opt (str): The option selected by the user.
-        
-        Returns:
-            bool: True if the user confirms the action, False otherwise.
-        
-        Raises:
-            ValueError: If the option where the fuction was called is invalid     
-    """
-
-    # Logic for handling the prompt depending on the context of the action.
-    match opt:
-
-        # Case confirmation of update to the product
-        case "1":
-            while True:
-                confirmation = input("Are you sure you want to update this product? (y/n): \n")
-                if confirmation.lower() == 'y':
-                    break
-                elif confirmation.lower() == 'n':
-                    print("Update cancelled. \n")
-                    return False
-                else:
-                    print("Invalid input. Please enter 'y' or 'n'. \n")            
-
-        # Case confirmation of updating more products.
-        case "2":
-            while True:
-                confirmation = input("You want to update more products? (y/n):  \n")
-                if confirmation.lower() == 'y':
-                    return True
-                elif confirmation.lower() == 'n':
-                    return False
-                else:
-                    print("Invalid input. Please enter 'y' or 'n'. \n")
-        case _:
-            raise ValueError("confirmation_prompt() received an invalid option. Please select a valid option.")
-        
-def update_product_info():
+def update_product_info() -> None:
     """
     Function in charge of updating the product info (price and stock) of a product.
 
@@ -97,15 +28,30 @@ def update_product_info():
 
     clear_screen()
 
-    # Logic for checking if the product exists before updating.
-    id = input("Enter the product ID to update: \n")
+    # Search Mode for the product
 
-    if not item_exists(id):
+    opt = input("Do you want to search the product by name or by ID? (name/id): \n")
+
+    if opt.lower() == "name":
+        search = search_mode.NAME
+        selected = "name"
+    else:
+        search = search_mode.ID
+        selected = "ID"
+
+    # Logic for checking if the product exists before updating.
+    search_term = input(f"Enter the product {selected} to update: \n")
+    
+
+    if not item_exists(search_term, search):
         print("Product not found. Please try again. \n")
         return
 
     # Showing the current project info and asking what wants to change.
-    pr = retrieve_item(id)
+    pr = retrieve_item(search_term, search)
+
+    if pr is None:
+        raise ValueError("Product not found. Please try again. \n")
 
     while True:
         # Print to the screen the current info and ask what wants to change.
@@ -137,7 +83,8 @@ def update_product_info():
                         continue
 
                     # Logic for handling the same price change.
-                    if is_price_same(pr.price, new_price):
+                    print(search)
+                    if pr.is_price_same(new_price):
                         print("The new price is the same as the current price. Please enter a different price.")
                         continue
 
@@ -145,12 +92,12 @@ def update_product_info():
                     print(f"Price being updated to {new_price} \n")
 
                     # Logic stop cyclic loop between menus
-                    if confirmation_prompt("1") == False:
+                    if confirmation_prompt(PromptMode.UPDATE_CONFIRM) == False:
                         break 
-                    update_price(id, new_price)
+                    update_price(search_term, new_price, search)
 
                     print("Price updated succesfully. \n")
-                    if not confirmation_prompt("2"):
+                    if not confirmation_prompt(PromptMode.UPDATE_MORE_CONFIRM):
                         return
                     else:
                         break
@@ -173,7 +120,7 @@ def update_product_info():
                         continue
 
                     # Logic for handling the same stock change.
-                    if is_stock_same(id, new_stock):
+                    if pr.is_stock_same(new_stock):
                         print("The new stock is the same as the current stock. Please enter a different stock.")
                         continue
 
@@ -181,11 +128,11 @@ def update_product_info():
                     print(f"Stock being updated to {new_stock} \n")
 
                     # Logic stop cyclic loop between menus
-                    if confirmation_prompt("1") == False:
+                    if confirmation_prompt(PromptMode.UPDATE_CONFIRM) == False:
                         break
-                    update_stock(id, new_stock) 
+                    update_stock(search_term, new_stock, mode=search)
                     print("Stock updated succesfully. \n")            
-                    if not confirmation_prompt("2"):
+                    if not confirmation_prompt(PromptMode.UPDATE_MORE_CONFIRM):
                         return
                     else:
                         break
@@ -212,12 +159,22 @@ def update_product_name():
     clear_screen()
 
     while True:
+
+        mode = input("Do you want to search the product by name or by ID? (name/id): \n")
+
+        if mode.lower() == "name":
+            search = search_mode.NAME
+            selected = "name"
+        else:
+            search = search_mode.ID
+            selected = "ID"
+
         # Handling initial product input
         print("Please enter the product you want to rename: \n")
-        id = input("Product name: \n")
+        search_term = input(f"Product {selected}: \n")
 
         # Verifying the product itself exists
-        if not item_exists(id):
+        if not item_exists(search_term, search):
             print("Product not found. Please try again. \n")
             continue
 
@@ -225,19 +182,22 @@ def update_product_name():
         print("Please enter the new name for the product: \n")
         new_product_name = input("New product name: \n")
 
+        pr = retrieve_item(search_term, search)
+        
         # Edge cases
-        if is_product_same(id, new_product_name):
+        if pr.is_named_same(new_product_name):
             print("The new product name is the same as the current product name. Please enter a different name.")
             continue
 
-        if item_exists(new_product_name):
+        if item_exists(new_product_name, search):
             print("The new product name already exists. Please enter a different name.")
             continue
 
         # Renaming of the product itself
-        if confirmation_prompt("1") == False:
+        if confirmation_prompt(PromptMode.UPDATE_CONFIRM) == False:
             break
-        update_name(id, new_product_name)
-        print(f"Product with name {id} has been renamed to {new_product_name}. \n")
+        update_name(search_term, new_product_name, search)
+        print(f"Product with {selected} {search_term} has been renamed to {new_product_name}. \n")
         break
     return
+
