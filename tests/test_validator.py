@@ -1,4 +1,4 @@
-from src.utils.validator import is_price_correct, is_stock_correct
+from pystock.utils.validator import is_price_correct, is_stock_correct
 
 def test_is_price_correct():
 

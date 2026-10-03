@@ -11,7 +11,7 @@ from presentation.viewer_menu import viewer
 
 ## Imports from Utils
 
-from utils.clear import clear_screen
+from pystock.utils.clear import clear_screen
 
 def menu() -> None:
     """
