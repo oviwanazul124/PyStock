@@ -1,5 +1,5 @@
-from models.save_search_mode import search_mode
-from services.save_service import get_full_view
+from src.models.save_search_mode import search_mode
+from src.services.save_service import get_full_view
 
 def filter_by(mode : search_mode, type : str, exact_filtrer=0 ,min_filtrer=0, max_filtrer=0) -> list:
 

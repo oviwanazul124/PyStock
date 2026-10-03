@@ -1,4 +1,4 @@
-from models.type_prompt_mode import PromptMode
+from src.models.type_prompt_mode import PromptMode
 
 def confirmation_prompt(type_prompt : PromptMode) -> bool | None:
     """

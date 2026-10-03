@@ -93,19 +93,19 @@ def by_stock_or_price(search_type : str) -> list[Product] | None:
         print(f"Please enter '{string_set[0]}' if you want to search by exact {search_type}, '{string_set[1]}' if you want to search by minimum {search_type}, '{string_set[2]}' if you want to search by maximum {search_type} and using 'exit' to exit the search")
         opt = input("Select an option: \n").lower()
 
-        if opt == string_set[0].lower():
+        if opt == string_set[0]:
 
             filtrer = input(f"Enter the exact {search_type} to search: \n")
             filtrer = int(filtrer)
             products = filter_by(mode=search_mode.EXACT, exact_filtrer=filtrer, type=search_type)
 
-        elif opt == string_set[1].lower():
+        elif opt == string_set[1]:
 
             filtrer = input(f"Enter the minimum {search_type} to search: \n")
             filtrer = int(filtrer)
             products = filter_by(mode=search_mode.MIN, min_filtrer=filtrer, type=search_type)
 
-        elif opt == string_set[2].lower():
+        elif opt == string_set[2]:
 
             filtrer = input(f"Enter the maximum {search_type} to search: \n")
             filtrer = int(filtrer)
