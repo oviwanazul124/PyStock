@@ -1,12 +1,12 @@
 ## Import Utils
-from utils.validator import is_price_correct, is_stock_correct
-from utils.clear import clear_screen
+from src.utils.validator import is_price_correct, is_stock_correct
+from src.utils.clear import clear_screen
 
 ## Import Services
-from services.save_service import item_exists
+from src.services.save_service import item_exists
 
 ## Models Import
-from models.save_search_mode import search_mode
+from src.models.save_search_mode import search_mode
 
 def adder_validation() -> tuple[str, float, int]:
     """
