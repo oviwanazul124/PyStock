@@ -1,16 +1,16 @@
 ## Utils Import
 
-from utils.clear import clear_screen
-from utils.data_manipulation import filter_by
+from pystock.utils.clear import clear_screen
+from pystock.utils.data_manipulation import filter_by
 
 # Models Import
 
-from models.save_search_mode import search_mode
-from models.product import Product
+from pystock.models.save_search_mode import search_mode
+from pystock.models.product import Product
 
 # Services Import
 
-from services.save_service import retrieve_item
+from pystock.services.save_service import retrieve_item
 
 
 def by_name() -> Product | None:

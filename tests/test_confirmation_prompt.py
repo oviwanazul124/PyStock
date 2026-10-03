@@ -1,5 +1,5 @@
-from src.models.type_prompt_mode import PromptMode
-from src.utils.confirmation_prompt import confirmation_prompt
+from pystock.models.type_prompt_mode import PromptMode
+from pystock.utils.confirmation_prompt import confirmation_prompt
 
 def test_confirmation_prompt(monkeypatch):
     # Test for UPDATE_CONFIRM

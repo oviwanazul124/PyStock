@@ -1,4 +1,4 @@
-from src.models.product import Product
+from pystock.models.product import Product
 
 def test_product_create():
     product = Product("Test Product", 10.0, 5)

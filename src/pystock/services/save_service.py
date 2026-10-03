@@ -1,8 +1,8 @@
 ## Import Models
 
-from src.models.product import Product
-from src.models.save_search_mode import search_mode
-from src.models.custom_errors import ProductNotFoundError
+from pystock.models.product import Product
+from pystock.models.save_search_mode import search_mode
+from pystock.models.custom_errors import ProductNotFoundError
 
 added_items : dict[int, Product] = {}
 

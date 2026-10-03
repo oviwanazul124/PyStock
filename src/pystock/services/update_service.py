@@ -1,16 +1,16 @@
 # Services Import
 
-from services.save_service import update_price, update_stock, item_exists, retrieve_item, update_name
+from pystock.services.save_service import update_price, update_stock, item_exists, retrieve_item, update_name
 
 # Model Import
 
-from models.save_search_mode import search_mode
-from models.type_prompt_mode import PromptMode
+from pystock.models.save_search_mode import search_mode
+from pystock.models.type_prompt_mode import PromptMode
 
 ## Utils Import
-from utils.clear import clear_screen
-from utils.confirmation_prompt import confirmation_prompt
-from utils.validator import is_price_correct, is_stock_correct
+from pystock.utils.clear import clear_screen
+from pystock.utils.confirmation_prompt import confirmation_prompt
+from pystock.utils.validator import is_price_correct, is_stock_correct
 
 def update_product_info() -> None:
     """
